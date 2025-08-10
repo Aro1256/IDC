@@ -1,0 +1,19 @@
+# IDC
+Actividad 3
+#/* Programa: Números invertidos */
+# include <stdio.h>
+int main()
+{
+    int n, in=0, sob;
+    printf("ingresa un numero: ");
+    scanf("%d", &n);
+    int ori = n;
+    while(n !=0);
+    {
+        sob=n%10;
+        in=in*10+sob;
+        n=n/10;
+    }
+    printf("El numero invertido es %d\n", in);
+    return 0;
+}
