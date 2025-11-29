@@ -1,0 +1,116 @@
+/******************************************************************************
+Nombre del proyecto: Generador de RFC (sin homoclave)
+Lenguaje: C++
+Autor: Aaron Casasola
+Fecha: 29 de noviembre del 2025
+*******************************************************************************/
+
+#include <iostream>
+#include <vector>
+#include<string>
+
+// CONVERTIR A MAYUSCULAS
+#include <algorithm>
+using namespace std;
+void toUpper(string &str) {
+    transform(str.begin(), str.end(), str.begin(), ::toupper);
+}
+
+//DICCIONARIO DE PALABRAS PRIHIBIDAS
+const std::vector<std::string> palabrasprohibidas = {
+    "CACA", "CAGA", "CAGO", "COGE", "COJE", "CULO", "FETO", "JOTO", "KAKA", 
+    "KULO", "LOCO", "MAMO", "MION", "MULA", "PEDO", "PENE", "PITO", "PUTA",
+    "PUTO", "QULO", "RUIN", "SENO", "TETA", "TITO", "VAGA", "VAGO", "VERG"
+};
+
+//VERIFICAR Y MODIFICAR PALABRAS PROHIBIDAS
+std::string correguirRFC (const std::string& rfc){
+    for (const std::string& palabra:palabrasprohibidas){
+         if (rfc == palabra) {
+             
+             //REMPLAZAR LA ULTIMA LETRA A UNA "X"
+             return rfc.substr (0,3) + "X"; 
+         }
+    }
+    return rfc;
+}
+//FUNCION PARA OBTENER LA PRIMERA VOCAL INTERNA DE UNA CADENA
+char obtenerprimeravocalinterna (const std::string& str) {
+    for (size_t i=1; i < str.length(); ++i) {
+        char c = str[i];
+        if(c =='A' || c == 'E' || c =='I' || c == 'O' ||c =='U')
+        return c;
+    }
+    return 'X'; //PONE UNA "X" SI NO ENCUENTRA NINGUNA VOCAL
+}
+
+//FUNCION PRINCIPAL PARA CALCULAR RFC DEL EMPLEADO
+std::string calcularRFC(const std::string& nombre, const std::string& apellidopaterno,
+const std::string& apellidomaterno, const std::string& fechadenacimiento){
+    
+    //SE DECLARA VARIABLE DODE GUARDAMOS EL RFC
+    std::string rfc;
+    
+    //SE OBTIENE LA LETRA INICIAL Y LA PRIMERA VOCAL INTERNA DEL APELLIDO PATERNO
+    char letrainicial = apellidopaterno [0];
+    char primeravocalinterna = obtenerprimeravocalinterna(apellidopaterno);
+    
+    //SE OBTIENE LA INICIAL DEL APELLIDO MATERNO SE UTILISA UNA X SI NO EXISTE
+    char inicialapellidomaterno = (!apellidomaterno.empty()) ? apellidomaterno [0] : 'X';
+    
+    //SE OBTIENE LA INICIAL DEL PRIMER NOMBRE
+    char inicialnombre = nombre[0];
+    
+    //SE OBTIENE EL DIA Y EL MES DE NACIMIENTO
+    std::string dia = fechadenacimiento.substr(0, 2);
+    std::string mes = fechadenacimiento.substr(3, 2);
+    
+    //SE OBTIENE LOS ULTIMOS DOS DIGITOS DEL AÑO DE NACIMIENTO
+    std::string anio = fechadenacimiento.substr(8, 2);
+    
+    //SE CONSTRUYE EL RFC SUMANDO EL TEXTO DE LA INFORMACION PROPORCIONADA
+    rfc = letrainicial;
+    rfc += primeravocalinterna;
+    rfc += inicialapellidomaterno;
+    rfc += inicialnombre;
+    
+    //AQUI SE EJECUTA LA COMPARACION DE MALAS PALABRAS EN EL DICCIONARIO Y SE SUSTITULLE CON UNA X
+    rfc = correguirRFC (rfc);
+    
+    //REALIZAR LA CORRECION Y SE CONTINUA CREANDO EL RFC
+    rfc += anio;
+    rfc += mes;
+    rfc += dia;
+    
+    return rfc;
+}
+int main(){
+    
+    //ESCRIBE EN CONSOLA LOS PASOS A SEGUIR Y ESPERA LOS DATOS EN MAYUSCULAS
+    std::string apellidopaterno, apellidomaterno, nombre, fechadenacimiento;
+    
+    std::cout << "INTRODUCE TU APELLIDO PATERNO:  ";
+    std::getline(std::cin, apellidopaterno);
+    
+    std::cout << "INTRODUCE TU APELLIDO MATERNO (SINO CUENTAS CON APELLIDO PRECIONA ENTER):  ";
+    std::getline(std::cin, apellidomaterno);
+    
+    std::cout << "INTRODUCE TU NOMBRE:  ";
+    std::getline(std::cin, nombre);
+    
+    std::cout << "INTRODUCE TU FECHA DE NACIMIENTO(DD  MM  AAAA):  ";
+    std::getline(std::cin, fechadenacimiento);
+    
+    // CONVERTIR A MAYUSCULAS
+    toUpper(apellidopaterno);
+    toUpper(apellidomaterno);
+    toUpper(nombre);
+    
+    //RESULTADO
+    std::string rfc = calcularRFC (nombre, apellidopaterno, apellidomaterno, fechadenacimiento);
+    std::cout << "\n==============================\n";
+    std::cout << "RFC Generado: " << rfc << std::endl;
+    std::cout << "\n==============================\n";
+    
+    return 0;
+}
