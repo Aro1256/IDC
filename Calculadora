@@ -1,0 +1,59 @@
+/******************************************************************************
+Nombre del proyecto: Calculadora
+Lenguaje: C++
+Autor: Aaron Casasola
+Fecha: 28 de noviembre del 2025
+*******************************************************************************/
+#include <iostream>
+
+int main()
+{
+    float num1, num2;
+    
+    std::cout << "Ingresa el PRIMER numero: ";
+    std::cin >> num1;
+    
+    std::cout << "Ingresa el sEGUNDO numero: ";
+    std::cin >> num2;
+  
+  float Suma = num1 + num2;
+  float Resta = num1 - num2;
+  float Multiplicacion = num1 * num2;
+  float Divicion = num1 / num2;
+  
+  std::cout << "La Suma es: " << Suma << std::endl;
+  std::cout << "La Resta es: " << Resta << std::endl;
+  std::cout << "La Multiplicacion es: " << Multiplicacion << std::endl;
+  std::cout << "La Divicion es: " << Divicion << std::endl;
+    
+    return 0;
+}
+
+/******************************************************************************
+Lenguaje: C
+*******************************************************************************/
+#include<stdio.h>
+float num1, num2;
+
+int main()
+{
+float num1;
+printf ("Ingresa el primer numero: ");
+scanf ("%f", &num1);
+
+float num2;
+printf ("Ingresa el segundo numero: ");
+scanf ("%f", &num2);
+
+float Suma = num1 + num2;
+float Resta = num1 - num2;
+float Multiplicacion = num1 * num2;
+float Divicion = num1 / num2;
+
+printf ("Suma: %.2f\n", Suma);
+printf ("Resta: %.2f\n", Resta);
+printf ("Multiplicacion: %.2f\n", Multiplicacion);
+printf ("Divicion: %.2f\n", Divicion);
+
+ return 0;
+}
